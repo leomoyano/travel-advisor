@@ -10,7 +10,7 @@ import PlaceDetails from './components/PlaceDetails/PlaceDetails';
 const App = () => {
 const [places, setPlaces] = useState([])
 const [coordinates, setCoordinates] = useState({lat: 0, lng: 0})
-const [bounds, setBounds] = useState(null)
+const [bounds, setBounds] = useState({})
 
 useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: {latitude, longitude}}) => {
@@ -20,8 +20,8 @@ useEffect(() => {
 
     useEffect(() => {
         console.log('Coordenadas y Bounds: ', coordinates, bounds);
-        getPlacesData(bounds.sw, bounds.ne)
-          .then((data) => {
+        getPlacesData(bounds?.sw, bounds?.ne)
+          .then( data => {
             console.log(data);
             setPlaces(data)
         })
@@ -33,7 +33,7 @@ useEffect(() => {
             <Header />
             <Grid container space={3} style={{ width: '100%'}}>
                 <Grid xs={12} md={4}>
-                    <List />
+                    <List places={places} />
                 </Grid>
                 <Grid xs={12} md={8}>
                     <Map 
