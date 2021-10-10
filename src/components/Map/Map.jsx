@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import GoogleMapReact from 'google-map-react';
 import { Divider, Paper, Typography, useMediaQuery } from '@material-ui/core';
 import { LocationOnOutlinedIcon } from '@material-ui/icons/LocationOnOutlined';
-import { Rating } from '@material-ui/lab';
+import Rating from '@material-ui/lab/Rating';
+
 
 import useStyles from './styles';
 
-const Map = ({ setCoordinates, setBounds, coordinates, places }) => {
+const Map = ({ setCoordinates, setBounds, coordinates, places, setChildClick }) => {
 
     const classes = useStyles();
     const isDesktop = useMediaQuery('(min-width: 600px)');
@@ -25,7 +26,7 @@ const Map = ({ setCoordinates, setBounds, coordinates, places }) => {
                     setCoordinates({lat: e?.center.lat, lng: e?.center.lng})
                     setBounds({ne: e?.marginBounds.ne, sw: e?.marginBounds.sw})
                 }}
-                onChildClick={''}
+                onChildClick={(child) => setChildClick(child)}
             >
                 {places?.map((place, i) => (
                     <div
@@ -43,6 +44,7 @@ const Map = ({ setCoordinates, setBounds, coordinates, places }) => {
                                 src={place?.photo ? place.photo.images.large.url : 'https://cwdaust.com.au/wpress/wp-content/uploads/2015/04/placeholder-restaurant.png'} 
                                 alt={place.name}
                                 className={classes.pointer}/>
+                            <Rating size="small" value={Number(place.rating)} readOnly />
                             </Paper>
                         )}
                     </div>

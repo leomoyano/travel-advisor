@@ -9,8 +9,14 @@ import PlaceDetails from './components/PlaceDetails/PlaceDetails';
 
 const App = () => {
 const [places, setPlaces] = useState([])
+const [childClick, setChildClick] = useState(null)
+
 const [coordinates, setCoordinates] = useState({lat: 0, lng: 0})
 const [bounds, setBounds] = useState({})
+
+const [isLoading, setIsLoading] = useState(false)
+const [type, setType] = useState('restaurants')
+const [rating, setRating] = useState('')
 
 useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: {latitude, longitude}}) => {
@@ -19,13 +25,14 @@ useEffect(() => {
 }, [])
 
     useEffect(() => {
-        console.log('Coordenadas y Bounds: ', coordinates, bounds);
-        getPlacesData(bounds?.sw, bounds?.ne)
+        setIsLoading(true)
+        getPlacesData(type, bounds?.sw, bounds?.ne)
           .then( data => {
             console.log(data);
             setPlaces(data)
+            setIsLoading(false)
         })
-    }, [bounds, coordinates])
+    }, [bounds, coordinates, type])
 
     return (
         <>
@@ -33,7 +40,15 @@ useEffect(() => {
             <Header />
             <Grid container space={3} style={{ width: '100%'}}>
                 <Grid xs={12} md={4}>
-                    <List places={places} />
+                    <List 
+                    places={places} 
+                    childClick={childClick}
+                    isLoading={isLoading}
+                    type={type}
+                    setType={setType}
+                    rating={rating}
+                    setRating={setRating}
+                    />
                 </Grid>
                 <Grid xs={12} md={8}>
                     <Map 
@@ -41,6 +56,7 @@ useEffect(() => {
                         setBounds={setBounds}
                         coordinates={coordinates}
                         places={places}
+                        setChildClick={setChildClick}
                     />
                 </Grid>
             </Grid>
