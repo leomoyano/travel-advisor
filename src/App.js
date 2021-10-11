@@ -34,9 +34,9 @@ useEffect(() => {
 
     useEffect(() => {
         setIsLoading(true)
+        
         getPlacesData(type, bounds?.sw, bounds?.ne)
           .then( data => {
-            console.log(data);
             setPlaces(data)
             setFilteredPlaces([])
             setIsLoading(false)
