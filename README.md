@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Travel Advisor
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To visit the site click [HERE](https://travel-advisor-lem.netlify.app/).
 
 ## Available Scripts
 
